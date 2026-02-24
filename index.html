@@ -905,6 +905,249 @@
     .suggestions { grid-template-columns: 1fr; }
     .toolbar-label, .temp-control label { display: none; }
   }
+
+  /* ───── TRIGGERS ───── */
+  .trigger-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .trigger-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+
+  .trigger-item.enabled { border-color: rgba(94,227,196,0.3); }
+  .trigger-item.firing {
+    border-color: var(--accent2);
+    box-shadow: 0 0 12px rgba(94,227,196,0.2);
+    animation: triggerPulse 0.6s ease;
+  }
+
+  @keyframes triggerPulse {
+    0%,100% { box-shadow: 0 0 12px rgba(94,227,196,0.2); }
+    50% { box-shadow: 0 0 24px rgba(94,227,196,0.5); }
+  }
+
+  .trigger-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .trigger-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .trigger-badge.type-fn { color: #a78bfa; border-color: #a78bfa44; background: #a78bfa11; }
+  .trigger-badge.type-api { color: var(--accent2); border-color: rgba(94,227,196,0.3); background: rgba(94,227,196,0.08); }
+
+  .trigger-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trigger-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .trigger-del {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 4px;
+    display: flex;
+    transition: color 0.15s;
+  }
+  .trigger-del:hover { color: var(--danger); }
+
+  .trigger-pattern {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    word-break: break-all;
+  }
+
+  .trigger-action-preview {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trigger-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .trigger-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .trigger-form-row label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .trigger-form-row input,
+  .trigger-form-row select,
+  .trigger-form-row textarea {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    resize: vertical;
+  }
+
+  .trigger-form-row input:focus,
+  .trigger-form-row select:focus,
+  .trigger-form-row textarea:focus { border-color: var(--accent); }
+
+  .trigger-form-row textarea { min-height: 80px; }
+
+  .trigger-form-row .hint {
+    font-size: 10px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  .trigger-form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .trigger-fire-log {
+    max-height: 140px;
+    overflow-y: auto;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .trigger-fire-log::-webkit-scrollbar { width: 3px; }
+  .trigger-fire-log::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .log-entry { line-height: 1.5; }
+  .log-entry .log-ts { color: var(--text-dim); }
+  .log-entry .log-ok { color: var(--accent2); }
+  .log-entry .log-err { color: var(--danger); }
+  .log-entry .log-name { color: var(--accent); }
+
+  .add-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+
+  .add-trigger-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(124,106,247,0.05); }
+
+  .trigger-modal-log-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .trigger-inject-bubble {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .trigger-inject-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(94,227,196,0.06);
+    border: 1px solid rgba(94,227,196,0.2);
+    border-radius: 8px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .trigger-inject-label {
+    color: var(--accent2);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .trigger-inject-text {
+    word-break: break-all;
+    opacity: 0.8;
+  }
 </style>
 </head>
 <body>
@@ -933,6 +1176,12 @@
         <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
       </svg>
       Settings
+    </button>
+    <button class="sidebar-btn" onclick="openTriggers()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Triggers
     </button>
     <button class="sidebar-btn" onclick="clearAllChats()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1156,6 +1405,92 @@
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeSettings()">Cancel</button>
       <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRIGGERS MODAL -->
+<div class="modal-overlay" id="triggers-modal">
+  <div class="modal" style="width:600px;max-width:96vw;">
+    <div class="modal-header">
+      <span class="modal-title">⚡ Triggers</span>
+      <button class="modal-close" onclick="closeTriggers()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.6;background:var(--surface2);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+        Triggers fire when the AI response <strong style="color:var(--text)">contains</strong> a pattern. They can run a <strong style="color:#a78bfa">JS function</strong> or call an <strong style="color:var(--accent2)">API endpoint</strong>. If data comes back, it gets fed back to the AI automatically.
+      </div>
+
+      <div class="trigger-list" id="trigger-list"></div>
+
+      <div id="trigger-form-wrap" style="display:none;">
+        <div class="trigger-form">
+          <div class="trigger-form-row">
+            <label>Trigger Name</label>
+            <input id="tf-name" type="text" placeholder="e.g. get weather">
+          </div>
+          <div class="trigger-form-row">
+            <label>Pattern to detect in AI response</label>
+            <input id="tf-pattern" type="text" placeholder='e.g. [GET_WEATHER] or "fetch weather" (case-insensitive)'>
+            <div class="hint">Exact substring or regex. If AI says something containing this, the trigger fires.</div>
+          </div>
+          <div class="trigger-form-row">
+            <label>Action Type</label>
+            <select id="tf-type" onchange="updateTriggerFormType()">
+              <option value="fn">JS Function</option>
+              <option value="api">API Fetch</option>
+            </select>
+          </div>
+          <div id="tf-fn-wrap" class="trigger-form-row">
+            <label>JS Function Body</label>
+            <textarea id="tf-fn" placeholder="// 'aiText' = full AI response text&#10;// return a value (string/object) to feed back to AI&#10;const val = aiText.match(/\d+/)?.[0];&#10;return 'The number extracted: ' + val;"></textarea>
+            <div class="hint">Has access to <code style="color:var(--accent2)">aiText</code> (full response). Return a value to inject back to AI. Return null/undefined to skip.</div>
+          </div>
+          <div id="tf-api-wrap" class="trigger-form-row" style="display:none;">
+            <label>API URL</label>
+            <input id="tf-url" type="text" placeholder="https://api.example.com/endpoint">
+            <label style="margin-top:8px;">Method</label>
+            <select id="tf-method">
+              <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
+            </select>
+            <label style="margin-top:8px;">Body (optional JSON, use {aiText} as placeholder)</label>
+            <textarea id="tf-body" placeholder='{"query": "{aiText}"}' style="min-height:55px;"></textarea>
+            <label style="margin-top:8px;">Headers (JSON)</label>
+            <textarea id="tf-headers" placeholder='{"Authorization": "Bearer TOKEN"}' style="min-height:45px;"></textarea>
+            <div class="hint">Response JSON is automatically fed back to AI. Use <code style="color:var(--accent2)">{aiText}</code> in Body to inject the AI's message.</div>
+          </div>
+          <div class="trigger-form-row">
+            <label>Feed-back message template</label>
+            <input id="tf-feedback" type="text" placeholder="[TRIGGER RESULT]: {result}" value="[TRIGGER: {name}] Result: {result}">
+            <div class="hint">Use <code style="color:var(--accent2)">{result}</code> for output data, <code style="color:var(--accent2)">{name}</code> for trigger name.</div>
+          </div>
+          <div class="trigger-form-actions">
+            <button class="btn btn-ghost" onclick="cancelTriggerForm()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveTrigger()">Save Trigger</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="add-trigger-btn" id="add-trigger-btn" onclick="showTriggerForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        Add Trigger
+      </button>
+
+      <div>
+        <div class="trigger-modal-log-title">🪵 Trigger Log</div>
+        <div class="trigger-fire-log" id="trigger-log">
+          <div class="log-entry" style="color:var(--text-dim)">No triggers fired yet.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeTriggers()">Close</button>
     </div>
   </div>
 </div>
@@ -1402,6 +1737,8 @@ async function sendMessage(text) {
 
     messages.push({ role: 'assistant', content: finalText });
     saveCurrentChat();
+    // Run triggers on the final AI response
+    await runTriggers(finalText, aiEl);
 
   } catch (err) {
     if (err.name !== 'AbortError') {
@@ -1815,6 +2152,271 @@ function toggleCompact() {
 document.getElementById('settings-modal').addEventListener('click', function(e) {
   if (e.target === this) closeSettings();
 });
+
+// ──────────────────────────────────────────────
+//  TRIGGERS ENGINE
+// ──────────────────────────────────────────────
+let triggers = JSON.parse(localStorage.getItem('uy_triggers') || '[]');
+let triggerFormEditing = null; // id of trigger being edited, or null
+let triggerLog = [];
+
+function saveTriggers() {
+  localStorage.setItem('uy_triggers', JSON.stringify(triggers));
+}
+
+function openTriggers() {
+  renderTriggerList();
+  document.getElementById('triggers-modal').classList.add('open');
+}
+
+function closeTriggers() {
+  document.getElementById('triggers-modal').classList.remove('open');
+}
+
+document.getElementById('triggers-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeTriggers();
+});
+
+function updateTriggerFormType() {
+  const type = document.getElementById('tf-type').value;
+  document.getElementById('tf-fn-wrap').style.display = type === 'fn' ? '' : 'none';
+  document.getElementById('tf-api-wrap').style.display = type === 'api' ? '' : 'none';
+}
+
+function showTriggerForm(id) {
+  triggerFormEditing = id || null;
+  document.getElementById('trigger-form-wrap').style.display = '';
+  document.getElementById('add-trigger-btn').style.display = 'none';
+
+  if (id) {
+    const t = triggers.find(t => t.id === id);
+    if (!t) return;
+    document.getElementById('tf-name').value = t.name;
+    document.getElementById('tf-pattern').value = t.pattern;
+    document.getElementById('tf-type').value = t.type;
+    document.getElementById('tf-fn').value = t.fn || '';
+    document.getElementById('tf-url').value = t.url || '';
+    document.getElementById('tf-method').value = t.method || 'GET';
+    document.getElementById('tf-body').value = t.body || '';
+    document.getElementById('tf-headers').value = t.headers || '';
+    document.getElementById('tf-feedback').value = t.feedback || '[TRIGGER: {name}] Result: {result}';
+  } else {
+    document.getElementById('tf-name').value = '';
+    document.getElementById('tf-pattern').value = '';
+    document.getElementById('tf-type').value = 'fn';
+    document.getElementById('tf-fn').value = '';
+    document.getElementById('tf-url').value = '';
+    document.getElementById('tf-method').value = 'GET';
+    document.getElementById('tf-body').value = '';
+    document.getElementById('tf-headers').value = '';
+    document.getElementById('tf-feedback').value = '[TRIGGER: {name}] Result: {result}';
+  }
+  updateTriggerFormType();
+}
+
+function cancelTriggerForm() {
+  triggerFormEditing = null;
+  document.getElementById('trigger-form-wrap').style.display = 'none';
+  document.getElementById('add-trigger-btn').style.display = '';
+}
+
+function saveTrigger() {
+  const name = document.getElementById('tf-name').value.trim();
+  const pattern = document.getElementById('tf-pattern').value.trim();
+  const type = document.getElementById('tf-type').value;
+
+  if (!name || !pattern) { showToast('⚠️ Name and pattern are required'); return; }
+
+  const t = {
+    id: triggerFormEditing || Date.now().toString(),
+    name,
+    pattern,
+    type,
+    fn: document.getElementById('tf-fn').value,
+    url: document.getElementById('tf-url').value.trim(),
+    method: document.getElementById('tf-method').value,
+    body: document.getElementById('tf-body').value,
+    headers: document.getElementById('tf-headers').value,
+    feedback: document.getElementById('tf-feedback').value,
+    enabled: true,
+  };
+
+  if (triggerFormEditing) {
+    const idx = triggers.findIndex(x => x.id === triggerFormEditing);
+    if (idx >= 0) triggers[idx] = t; else triggers.push(t);
+  } else {
+    triggers.push(t);
+  }
+
+  saveTriggers();
+  cancelTriggerForm();
+  renderTriggerList();
+  showToast(`✓ Trigger "${name}" saved`);
+}
+
+function deleteTrigger(id) {
+  triggers = triggers.filter(t => t.id !== id);
+  saveTriggers();
+  renderTriggerList();
+  showToast('Trigger deleted');
+}
+
+function toggleTriggerEnabled(id) {
+  const t = triggers.find(t => t.id === id);
+  if (t) { t.enabled = !t.enabled; saveTriggers(); renderTriggerList(); }
+}
+
+function renderTriggerList() {
+  const el = document.getElementById('trigger-list');
+  el.innerHTML = '';
+
+  if (triggers.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-dim);padding:8px 0;">No triggers yet. Add one below!</div>';
+    return;
+  }
+
+  triggers.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'trigger-item' + (t.enabled ? ' enabled' : '');
+    item.innerHTML = `
+      <div class="trigger-header">
+        <span class="trigger-badge type-${t.type}">${t.type === 'fn' ? 'JS Fn' : 'API'}</span>
+        <span class="trigger-name">${escHtml(t.name)}</span>
+        <div class="trigger-controls">
+          <button class="toggle ${t.enabled ? 'on' : ''}" style="width:32px;height:18px;" onclick="toggleTriggerEnabled('${t.id}')"></button>
+          <button class="trigger-del" onclick="showTriggerForm('${t.id}')" title="Edit">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="trigger-del" onclick="deleteTrigger('${t.id}')" title="Delete">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="trigger-pattern">match: "${escHtml(t.pattern)}"</div>
+      <div class="trigger-action-preview">${t.type === 'fn' ? '→ fn() ' + (t.fn || '').slice(0,60).replace(/\n/g,' ') : '→ ' + t.method + ' ' + (t.url || '').slice(0,60)}${(t.type === 'fn' ? t.fn : t.url)?.length > 60 ? '…' : ''}</div>
+    `;
+    el.appendChild(item);
+  });
+}
+
+function addTriggerLog(msg, ok = true) {
+  const el = document.getElementById('trigger-log');
+  const ts = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-ts">[${ts}]</span> <span class="${ok ? 'log-ok' : 'log-err'}">${escHtml(msg)}</span>`;
+  // Remove placeholder
+  const placeholder = el.querySelector('[style*="color:var(--text-dim)"]');
+  if (placeholder) placeholder.remove();
+  el.insertBefore(entry, el.firstChild);
+  if (el.children.length > 50) el.lastChild.remove();
+}
+
+// ── CORE: run triggers after AI responds ──────
+async function runTriggers(aiText, aiMsgEl) {
+  const enabled = triggers.filter(t => t.enabled);
+  if (!enabled.length) return;
+
+  for (const t of enabled) {
+    // Test pattern
+    let matched = false;
+    try {
+      matched = new RegExp(t.pattern, 'i').test(aiText);
+    } catch {
+      matched = aiText.toLowerCase().includes(t.pattern.toLowerCase());
+    }
+    if (!matched) continue;
+
+    // Visual feedback
+    showToast(`⚡ Trigger: ${t.name}`);
+    addTriggerLog(`Trigger "${t.name}" fired!`);
+
+    // Highlight matching trigger items
+    document.querySelectorAll('.trigger-item').forEach((el, i) => {
+      if (triggers[i]?.id === t.id) el.classList.add('firing');
+      setTimeout(() => el.classList.remove('firing'), 1500);
+    });
+
+    let result = null;
+
+    try {
+      if (t.type === 'fn') {
+        // Run JS function
+        const fn = new Function('aiText', t.fn);
+        result = await fn(aiText);
+      } else {
+        // API call
+        const bodyStr = t.body ? t.body.replace(/\{aiText\}/g, aiText.replace(/"/g, '\\"')) : null;
+        let headers = { 'Content-Type': 'application/json' };
+        if (t.headers) {
+          try { Object.assign(headers, JSON.parse(t.headers)); } catch {}
+        }
+        const fetchOpts = { method: t.method, headers };
+        if (bodyStr && t.method !== 'GET') fetchOpts.body = bodyStr;
+        const resp = await fetch(t.url, fetchOpts);
+        result = await resp.json().catch(() => resp.text());
+      }
+    } catch (err) {
+      addTriggerLog(`Error in "${t.name}": ${err.message}`, false);
+      continue;
+    }
+
+    if (result === null || result === undefined) {
+      addTriggerLog(`"${t.name}" ran, returned nothing (no feed-back)`);
+      continue;
+    }
+
+    const resultStr = typeof result === 'object' ? JSON.stringify(result, null, 2) : String(result);
+    addTriggerLog(`"${t.name}" → ${resultStr.slice(0, 80)}${resultStr.length > 80 ? '…' : ''}`);
+
+    // Build feedback message
+    const feedbackContent = (t.feedback || '[TRIGGER: {name}] Result: {result}')
+      .replace(/{name}/g, t.name)
+      .replace(/{result}/g, resultStr);
+
+    // Show inject bubble in chat
+    const bubble = document.createElement('div');
+    bubble.className = 'trigger-inject-bubble';
+    bubble.innerHTML = `<div class="trigger-inject-inner">
+      <span class="trigger-inject-label">⚡ ${escHtml(t.name)}</span>
+      <span class="trigger-inject-text">${escHtml(resultStr.slice(0, 200))}${resultStr.length > 200 ? '…' : ''}</span>
+    </div>`;
+    const wrap = document.getElementById('messages');
+    wrap.appendChild(bubble);
+    scrollBottom();
+
+    // Inject as user message and re-call AI
+    messages.push({ role: 'user', content: feedbackContent });
+
+    const apiMessages = [];
+    if (settings.systemPrompt) apiMessages.push({ role: 'system', content: getModeSystemPrompt() });
+    messages.forEach(m => apiMessages.push({ role: m.role, content: m.content }));
+
+    setGenerating(true);
+    const followUpEl = renderMessage('ai', '', true);
+
+    try {
+      let finalText = '';
+      if (settings.streaming) {
+        finalText = await streamCompletion(apiMessages, followUpEl);
+      } else {
+        finalText = await fetchCompletion(apiMessages, followUpEl);
+      }
+      messages.push({ role: 'assistant', content: finalText });
+      saveCurrentChat();
+      // Only run triggers once per cycle to avoid loops
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        updateMessageEl(followUpEl, `Error: ${err.message}`);
+      }
+    } finally {
+      setGenerating(false);
+    }
+  }
+}
+
+// Init trigger log display
+renderTriggerList();
 
 // Init new chat
 newChat();
