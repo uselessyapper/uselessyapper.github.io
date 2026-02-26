@@ -2313,9 +2313,13 @@ function addTriggerLog(msg, ok = true) {
 }
 
 // ── CORE: run triggers after AI responds ──────
+const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+
 async function runTriggers(aiText, aiMsgEl) {
   const enabled = triggers.filter(t => t.enabled);
   if (!enabled.length) return;
+
+  let anyTriggered = false;
 
   for (const t of enabled) {
     // Test pattern
@@ -2326,6 +2330,12 @@ async function runTriggers(aiText, aiMsgEl) {
       matched = aiText.toLowerCase().includes(t.pattern.toLowerCase());
     }
     if (!matched) continue;
+
+    // Hide the original AI message since a trigger is handling it
+    if (aiMsgEl && !anyTriggered) {
+      aiMsgEl.style.display = 'none';
+    }
+    anyTriggered = true;
 
     // Visual feedback
     showToast(`⚡ Trigger: ${t.name}`);
@@ -2341,8 +2351,8 @@ async function runTriggers(aiText, aiMsgEl) {
 
     try {
       if (t.type === 'fn') {
-        // Run JS function
-        const fn = new Function('aiText', t.fn);
+        // Run JS function — supports async/await
+        const fn = new AsyncFunction('aiText', t.fn);
         result = await fn(aiText);
       } else {
         // API call
@@ -2369,31 +2379,38 @@ async function runTriggers(aiText, aiMsgEl) {
     const resultStr = typeof result === 'object' ? JSON.stringify(result, null, 2) : String(result);
     addTriggerLog(`"${t.name}" → ${resultStr.slice(0, 80)}${resultStr.length > 80 ? '…' : ''}`);
 
-    // Build feedback message
+    // Build feedback message (sent to AI, hidden from user)
     const feedbackContent = (t.feedback || '[TRIGGER: {name}] Result: {result}')
       .replace(/{name}/g, t.name)
       .replace(/{result}/g, resultStr);
 
-    // Show inject bubble in chat
+    // Show trigger result bubble in chat (visible to user)
     const bubble = document.createElement('div');
     bubble.className = 'trigger-inject-bubble';
     bubble.innerHTML = `<div class="trigger-inject-inner">
       <span class="trigger-inject-label">⚡ ${escHtml(t.name)}</span>
       <span class="trigger-inject-text">${escHtml(resultStr.slice(0, 200))}${resultStr.length > 200 ? '…' : ''}</span>
     </div>`;
-    const wrap = document.getElementById('messages');
-    wrap.appendChild(bubble);
+    document.getElementById('messages').appendChild(bubble);
     scrollBottom();
 
-    // Inject as user message and re-call AI
+    // Push feedback as user message into history
     messages.push({ role: 'user', content: feedbackContent });
 
+    // Build fresh api messages array with full history including feedback
     const apiMessages = [];
     if (settings.systemPrompt) apiMessages.push({ role: 'system', content: getModeSystemPrompt() });
-    messages.forEach(m => apiMessages.push({ role: m.role, content: m.content }));
+    for (const m of messages) apiMessages.push({ role: m.role, content: m.content });
 
-    setGenerating(true);
+    // Render follow-up AI bubble and call API
     const followUpEl = renderMessage('ai', '', true);
+    isGenerating = true;
+    stopRequested = false;
+    document.getElementById('send-btn').disabled = true;
+    document.getElementById('stop-btn').style.display = 'flex';
+    document.getElementById('status-dot').style.animationPlayState = 'running';
+    document.getElementById('status-dot').style.background = '#f5a623';
+    document.getElementById('status-text').textContent = 'Yapping away…';
 
     try {
       let finalText = '';
@@ -2404,14 +2421,12 @@ async function runTriggers(aiText, aiMsgEl) {
       }
       messages.push({ role: 'assistant', content: finalText });
       saveCurrentChat();
-      // Only run triggers once per cycle to avoid loops
     } catch (err) {
       if (err.name !== 'AbortError') {
         updateMessageEl(followUpEl, `Error: ${err.message}`);
       }
-    } finally {
-      setGenerating(false);
     }
+    // Don't call setGenerating(false) here — sendMessage's finally handles it
   }
 }
 
